@@ -46,13 +46,13 @@ class GofishGame
   end
 
 
-  def card_in_player_hand(name, rank, player_who_asked)
+  def card_in_player_hand(player_to_search, rank, player_to_give_cards)
     # Takes player string name and finds the player.
-    player = find_player(name[-1].to_i)
-    player_to_give_cards = find_player(player_who_asked[-1].to_i)
-    player.player_hand.each do |card_from_player|
+    # player = find_player(name[-1].to_i)
+    # player_to_give_cards = find_player(player_who_asked[-1].to_i)
+    player_to_search.player_hand.each do |card_from_player|
       if rank == card_from_player.rank
-        player.player_hand.delete(card_from_player)
+        player_to_search.player_hand.delete(card_from_player)
         player_to_give_cards.take(card_from_player)
         return "player has a #{rank}"
       end
