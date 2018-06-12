@@ -2,6 +2,7 @@ class Player
   def initialize(name, cards=[])
     @cards = cards
     @name = name
+    @match = []
   end
 
   def player_hand
@@ -17,10 +18,18 @@ class Player
   end
 
   def set_hand(cards)
-    @cards = cards
+    @cards = *cards
+  end
+
+  def match(matches)
+    @match << matches
+  end
+
+  def points
+    @match.count
   end
 
   def take(cards)
-    player_hand.push(*cards)
+    @cards.push(*cards)
   end
 end

@@ -15,6 +15,10 @@ class Card
     @suit
   end
 
+  def rank_value
+    RANKS[rank]
+  end
+
   def value
     "#{RANKS[rank]} of #{SUITS[suit]}"
   end

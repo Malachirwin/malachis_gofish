@@ -27,7 +27,7 @@ class CardDeck
     shuffle
     players.each do |player_hand|
       5.times do
-        player_hand.take(remove_top_card)
+        player_hand.player_hand.push(remove_top_card)
       end
     end
     players
@@ -35,6 +35,10 @@ class CardDeck
 
   def remove_top_card
     card_deck.shift
+  end
+
+  def remove_all_cards_from_deck
+    @deck = []
   end
 
   def has_cards?
