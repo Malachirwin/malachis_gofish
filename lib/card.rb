@@ -16,6 +16,6 @@ class Card
   end
 
   def value
-    "#{RANKS[@rank]} of #{SUITS[@suit]}"
+    "#{RANKS[rank]} of #{SUITS[suit]}"
   end
 end

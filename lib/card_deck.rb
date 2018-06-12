@@ -16,30 +16,25 @@ class CardDeck
   end
 
   def shuffle
-    @deck = @deck.shuffle.shuffle.shuffle
+    card_deck.shuffle!
   end
 
   def cards_left
-    @deck.length
+    card_deck.length
   end
 
-  def deal(player1 = [], player2 = [])
+  def deal(deck, *players)
     shuffle
-    alternator = 0
-    while has_cards?
-      if alternator == 0
-        player1 << remove_top_card
-        alternator = 1
-      else
-        player2 << remove_top_card
-        alternator = 0
+    players.each do |player_hand|
+      5.times do
+        player_hand.take(remove_top_card)
       end
     end
-    [player1, player2]
+    players
   end
 
   def remove_top_card
-    @deck.pop
+    card_deck.shift
   end
 
   def has_cards?
@@ -48,4 +43,9 @@ class CardDeck
     end
   end
 
+  private
+
+  def card_deck
+    @deck
+  end
 end
