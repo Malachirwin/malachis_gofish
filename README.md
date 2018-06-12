@@ -1,3 +1,3 @@
 # malachis_gofish
 
-plays go fish between two terminal windows!
+plays go fish between terminal windows!
