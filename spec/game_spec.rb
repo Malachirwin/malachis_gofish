@@ -9,7 +9,7 @@ describe 'GofishGame' do
   let(:player_turn) { game.player_turn}
 
   before do
-    game.start
+    game.start(4)
   end
 
   it 'makes a game' do
@@ -47,14 +47,14 @@ describe 'GofishGame' do
   end
   it "plays a full round" do
     game = GofishGame.new
-    game.start
+    game.start(4)
     game.player_set_hand(1,[Card.new('H', 6), Card.new('H', 9), Card.new('H', 7), Card.new('H', 4), Card.new('H', 3)])
     game.player_set_hand(2,[Card.new('S', 6), Card.new('S', 9), Card.new('S', 7), Card.new('S', 4), Card.new('S', 3)])
     game.player_set_hand(3,[Card.new('D', 6), Card.new('D', 9), Card.new('D', 7), Card.new('D', 4), Card.new('D', 3)])
     game.player_set_hand(4,[Card.new('C', 6), Card.new('C', 9), Card.new('C', 7), Card.new('C', 4), Card.new('C', 3)])
     player_request = Request.new('player1', 'player3', "J")
     expect(game.do_turn(player_request)).to eq "Go fish"
-    player_request = Request.new('player2', 'player1', "K")
+    player_request = Request.new('player2', 'player1', 2)
     expect(game.do_turn(player_request)).to eq "Go fish"
     player_request = Request.new('player3', 'player2', 8)
     expect(game.do_turn(player_request)).to eq "player has a 8"

@@ -8,7 +8,7 @@ class GofishGame
     @player_turn = 1
   end
 
-  def start(number_of_players=4)
+  def start(number_of_players)
     @deck = CardDeck.new
     @players = []
     number_of_players.times do |index|
