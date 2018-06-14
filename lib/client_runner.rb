@@ -7,36 +7,34 @@ require_relative "client"
 while true
   begin
     client = Client.new("Malachi")
-    welcome_message = client.socket.gets
+    welcome_message = client.get_stuff
     puts welcome_message
     client.ask_for_input
-    game_is_starting = client.socket.gets
+    game_is_starting = client.get_stuff
     puts game_is_starting
-    player_name = client.socket.gets
+    player_name = client.get_stuff
     puts "you are #{player_name}"
-
-    # {messages: ['welcome', 'start', 'your turn'], your_turn: true}
-    # {messages: ['result'], hand: ['K of S'], your_turn: false}
-
+    puts client.example
     while true
       begin
-        message = client.socket.gets
+        message = client.get_stuff
         return if message.nil?
         if message == "It is your turn\n"
           puts message
           client.ask_for_input
         elsif message == "you can't ask that\n"
           puts message
-          puts "ERROR: -!-INVALID REQUEST-!-".red
+          puts "ERROR: -!-INVALID REQUEST-!-".light_red
+          puts client.example
         elsif message.include?('Result: ')
           round_result = message.gsub('Result: ', '')
-          request = client.socket.gets
-          puts client.puts_result(request, round_result)
+          request = client.get_stuff
+          puts client.puts_result(request, round_result, player_name) if client.puts_result(request, round_result, player_name)
         else
-          puts message
+          print message
         end
-      rescue Exception => e
-        puts e.message
+      rescue #Exception => e
+        #puts e.message
       end
     end
   rescue Errno::ECONNREFUSED

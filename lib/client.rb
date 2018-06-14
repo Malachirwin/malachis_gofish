@@ -14,27 +14,41 @@ class Client
     @name
   end
 
+  def get_stuff
+    socket.gets
+  end
+
+  def example
+    "When asking a player for a rank\n#Note: you can't ask yourself\n#Note: you can only ask for a rank if you have it\n#Note: player names must have no space between player and their number\nlike: \"player1\" not: \"player 1\"\nExample: \"ask player2 for a 4\"\n#Note: face card ranks must be capitals\nExample: \"ask player3 for a K\""
+  end
+
   def ask_for_input
     answer = gets
     socket.puts answer
   end
 
-  def provide_input(text)
-    socket.puts text
-  end
-
-  def recieve_output_from_server
-    socket.gets
-  end
-
-  def puts_result(request, round_result)
+  def puts_result(request, round_result, player_name)
     new_request = Request.from_json(request)
     if round_result == "Go fish\n"
-      return "#{new_request.player_who_asked} asked #{new_request.player_who_was_asked} but #{new_request.player_who_was_asked} did not have a #{new_request.desired_rank} Go fish"
+      if new_request.player_who_asked == player_name.chomp
+        return "you asked #{new_request.player_who_was_asked} for a #{new_request.desired_rank} but #{new_request.player_who_was_asked} did not have a #{new_request.desired_rank} Go fish"
+      elsif new_request.player_who_was_asked == player_name.chomp
+        return "#{new_request.player_who_asked} asked you for a #{new_request.desired_rank} but you do not have a #{new_request.desired_rank}"
+      else
+        return "#{new_request.player_who_asked} asked #{new_request.player_who_was_asked} for a #{new_request.desired_rank} but #{new_request.player_who_was_asked} did not have a #{new_request.desired_rank}"
+      end
     elsif round_result == "you can't ask that\n"
-      return "ERROR: -!-#{new_request.player_who_asked} YOU CAN'T ASK THAT-!-".red
+      if new_request.player_who_asked == player_name.chomp
+        return "ERROR: -!-#{new_request.player_who_asked.upcase} YOU CAN'T ASK THAT-!-".light_red
+      end
     else
-      return "#{new_request.player_who_was_asked} gave #{round_result.chomp} to #{new_request.player_who_asked}"
+      if new_request.player_who_asked == player_name.chomp
+        return "#{new_request.player_who_was_asked} gave #{round_result.chomp} to you"
+      elsif new_request.player_who_was_asked == player_name.chomp
+        return "you gave #{round_result.chomp} to #{new_request.player_who_asked}"
+      else
+        return "#{new_request.player_who_was_asked} gave #{round_result.chomp} to #{new_request.player_who_asked}"
+      end
     end
   end
 end

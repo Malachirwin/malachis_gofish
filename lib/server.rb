@@ -5,6 +5,7 @@ class GofishServer
   attr_reader :server, :clients_connected, :pending_clients, :pending_clients_four_player, :games
   attr_reader :pending_clients_three_player, :pending_clients_five_player, :pending_clients_six_player
   def initialize
+    @turn = 0
     @clients_connected = 0
     @pending_clients = []
     @pending_clients_three_player = []
@@ -118,6 +119,10 @@ class GofishServer
       client_to_inform.puts "you can't ask that"
       return
     end
+    if matches[0] == game.players[game.player_turn - 1].name
+      client_to_inform.puts "you can't ask that"
+      return
+    end
     players_request = Request.new("player#{game.player_turn}", matches[0], matches[1])
     response = game.do_turn(players_request)
     clients.each do |client|
@@ -127,8 +132,10 @@ class GofishServer
   end
 
   def tell_clients_their_cards(game)
+    client_playing = find_client_by_turn(game)
     clients = find_clients(game)
     clients.each do |client|
+      next if client == client_playing
       client_num = clients.index(client)
       cards = game.players[client_num].player_hand
       cards.each.with_index do |card, index|
@@ -141,11 +148,30 @@ class GofishServer
     end
   end
 
+  def tell_clients_playing_cards(game)
+    clients = find_clients(game)
+    client = find_client_by_turn(game)
+    client_num = clients.index(client)
+    cards = game.players[client_num].player_hand
+    cards.each.with_index do |card, index|
+      if (cards.count - 1) != (index)
+        client.print "#{card.value}, "
+      else
+        client.puts "#{card.value}"
+      end
+    end
+  end
+
   def run_game(game)
     until game.winner
-      tell_clients_their_cards(game)
-      tell_clients_whos_turn(game)
-      run_round(game)
+      if turn != game.player_turn
+        @turn = game.player_turn
+        tell_clients_their_cards(game)
+      else
+        tell_clients_playing_cards(game)
+        tell_clients_whos_turn(game)
+        run_round(game)
+      end
     end
   end
 
@@ -163,6 +189,10 @@ class GofishServer
   end
 
   private
+
+  def turn
+    @turn
+  end
   def find_clients(game)
     games.fetch(game)
   end
