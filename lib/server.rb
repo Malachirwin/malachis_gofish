@@ -1,7 +1,8 @@
 require 'pry'
+require_relative "game"
 
 class GofishServer
-  attr_reader :server, :clients_connected, :pending_clients, :pending_clients_four_player
+  attr_reader :server, :clients_connected, :pending_clients, :pending_clients_four_player, :games
   attr_reader :pending_clients_three_player, :pending_clients_five_player, :pending_clients_six_player
   def initialize
     @clients_connected = 0
@@ -15,6 +16,10 @@ class GofishServer
 
   def start
     @server = TCPServer.new(port_number)
+  end
+
+  def tell_clients(text)
+    server.puts text
   end
 
   def stop
@@ -32,15 +37,15 @@ class GofishServer
   def accept_new_client
     client = server.accept_nonblock
     @pending_clients.push(client)
-    client.puts "Welcome to Gofish, How many players do you want to play with?\n"
+    client.puts "Welcome to Gofish, How many players do you want to play with?"
     @clients_connected += 1
   rescue IO::WaitReadable, Errno::EINTR
-    puts "No client to accept"
+    #puts "No client to accept"
   end
 
   def create_game_if_possible
     clients_to_remove_from_pending = []
-    pending_clients.each do |client|
+    @pending_clients.each do |client|
       client_input = capture_output(client)
       if client_input == "4\n"
         pending_clients_four_player.push(client)
@@ -59,32 +64,117 @@ class GofishServer
     clients_to_remove_from_pending.each do |client|
       pending_clients.delete(client)
     end
-    if pending_clients_four_player.count >3
+    if pending_clients_four_player.count > 3
       game = GofishGame.new
       game.start(4)
+      pending_clients_four_player.each.with_index do |client, index|
+        client.puts "The game is starting"
+        client.puts "player#{index + 1}"
+      end
       @games.store(game, pending_clients_four_player.shift(4))
+      return game
     end
     if pending_clients_three_player.count > 2
       game = GofishGame.new
       game.start(3)
+      pending_clients_three_player.each.with_index do |client, index|
+        client.puts "The game is starting"
+        client.puts "player#{index + 1}"
+      end
       @games.store(game, pending_clients_three_player.shift(3))
+      return game
     end
     if pending_clients_five_player.count > 4
       game = GofishGame.new
       game.start(5)
+      pending_clients_five_player.each.with_index do |client, index|
+        client.puts "The game is starting"
+        client.puts "player#{index + 1}"
+      end
       @games.store(game, pending_clients_five_player.shift(5))
+      return game
     end
     if pending_clients_six_player.count > 5
       game = GofishGame.new
       game.start(6)
+      pending_clients_six_player.each.with_index do |client, index|
+        client.puts "The game is starting"
+        client.puts "player#{index + 1}"
+      end
       @games.store(game, pending_clients_six_player.shift(6))
+      return game
     end
   end
 
-  
+  def run_round(game)
+    player_number = game.player_turn
+    client_to_inform = find_client_by_turn(game)
+    clients = find_clients(game)
+    request = wait_for_input(client_to_inform)
+    regex = /(player\d).*\s(\w+)/i
+    if request.match(regex)
+      matches = request.match(regex).captures
+    else
+      client_to_inform.puts "you can't ask that"
+      return
+    end
+    players_request = Request.new("player#{game.player_turn}", matches[0], matches[1])
+    response = game.do_turn(players_request)
+    clients.each do |client|
+      client.puts "Result: #{response}"
+      client.puts players_request.to_json
+    end
+  end
+
+  def tell_clients_their_cards(game)
+    clients = find_clients(game)
+    clients.each do |client|
+      client_num = clients.index(client)
+      cards = game.players[client_num].player_hand
+      cards.each.with_index do |card, index|
+        if (cards.count - 1) != (index)
+          client.print "#{card.value}, "
+        else
+          client.puts "#{card.value}"
+        end
+      end
+    end
+  end
+
+  def run_game(game)
+    until game.winner
+      tell_clients_their_cards(game)
+      tell_clients_whos_turn(game)
+      run_round(game)
+    end
+  end
+
+  def wait_for_input(client)
+    client_input = ''
+    until client_input != ""
+      client_input = capture_output(client)
+    end
+    client_input
+  end
+
+  def tell_clients_whos_turn(game)
+    client = find_client_by_turn(game)
+    client.puts "It is your turn"
+  end
 
   private
-  def capture_output(delay=0.000001, client)
+  def find_clients(game)
+    games.fetch(game)
+  end
+
+  def find_client_by_turn(game)
+    clients = games.fetch(game)
+    which_turn = (game.player_turn - 1)
+    client = clients[which_turn]
+    return client
+  end
+
+  def capture_output(delay=0.0000001, client)
     sleep(delay)
     output = client.read_nonblock(1000)
   rescue IO::WaitReadable

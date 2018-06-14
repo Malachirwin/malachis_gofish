@@ -1,5 +1,8 @@
 require 'pry'
 require 'json'
+require_relative "card_deck"
+require_relative "player"
+require_relative "request"
 
 class GofishGame
   attr_reader :deck
@@ -43,16 +46,21 @@ class GofishGame
   end
 
   def card_in_player_hand(player_to_ask, rank, player_to_give_cards)
-    player_to_ask.player_hand.each do |card_from_player|
-      if rank.to_s == card_from_player.rank_value
-        player_to_ask.player_hand.delete(card_from_player)
-        player_to_give_cards.take(card_from_player)
-        return "player has a #{rank}"
+    player_to_give_cards.player_hand.each do |card|
+      if rank.to_s == card.rank_value
+        player_to_ask.player_hand.each do |card_from_player|
+          if rank.to_s == card_from_player.rank_value
+            player_to_give_cards.take(card_from_player)
+            player_to_ask.player_hand.delete(card_from_player)
+            return card_from_player.value
+          end
+        end
+        player_to_give_cards.take(deck.remove_top_card)
+        next_turn
+        return "Go fish"
       end
     end
-    player_to_give_cards.take(deck.remove_top_card)
-    next_turn
-    return "Go fish"
+    return "you can't ask that"
   end
 
   def player_turn
@@ -81,7 +89,7 @@ class GofishGame
       player.player_hand.each do |card|
         value_of_card = card.rank_value
         player.player_hand.each do |next_card|
-          if value_of_card = next_card.rank_value
+          if value_of_card == next_card.rank_value
             matches << next_card
           end
         end
@@ -114,7 +122,7 @@ class GofishGame
       compare_to_result << true
     end
     if result == compare_to_result
-      return true
+      game_end
     else
       return false
     end
@@ -138,12 +146,13 @@ class GofishGame
     result = card_in_player_hand(player_who_was_asked, player_request.desired_rank, player_who_asked)
     pair
     no_cards
-    if winner
-      game_end
-    end
     result
   end
 
+  def players
+    @players
+  end
+
   private
-  attr_reader :players, :deck
+  attr_reader :deck
 end

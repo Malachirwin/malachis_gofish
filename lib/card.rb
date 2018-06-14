@@ -18,7 +18,7 @@ class Card
   def rank_value
     RANKS[rank]
   end
-
+  
   def value
     "#{RANKS[rank]} of #{SUITS[suit]}"
   end

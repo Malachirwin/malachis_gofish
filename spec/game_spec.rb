@@ -26,47 +26,30 @@ describe 'GofishGame' do
 
   it "gives five cards to a player if they run out of cards" do
     game.player_set_hand(4, [Card.new('H', 3)])
+    game.player_set_hand(3, [Card.new("H", 3)])
     player_request = Request.new('player3', 'player4', 4)
-    expect(game.do_turn(player_request)).to eq "player has a 4"
+    expect(game.do_turn(player_request)).to eq "4 of Hearts"
     expect(player4.cards_left).to eq 5
-    expect(player3.cards_left).to eq 6
+    expect(player3.cards_left).to eq 2
   end
 
   it 'compares a card two a players hand and return true' do
     game.player_set_hand(1, [Card.new('H', 3), Card.new('D', 3), Card.new('H', 7), Card.new('H', 4), Card.new('S', 2)])
-    expect(game.card_in_player_hand(player1, 3, player2)).to eq 'player has a 3'
+    game.player_set_hand(2, [Card.new('H', 3)])
+    expect(game.card_in_player_hand(player1, 4, player2)).to eq '4 of Hearts'
     expect(player1.cards_left).to eq 4
-    expect(player2.cards_left).to eq 6
+    expect(player2.cards_left).to eq 2
   end
 
   it "compares a card two a players hand and return Go fish and player draws a card" do
     game.player_set_hand(2, [Card.new('H', 3), Card.new('H', 7), Card.new('H', 4), Card.new('H', 9), Card.new('D', 6)])
+    game.player_set_hand(3, [Card.new("H", 10)])
     expect(game.card_in_player_hand(player2, "J", player3)).to eq "Go fish"
     expect(player2.cards_left).to eq 5
-    expect(player3.cards_left).to eq 6
-  end
-  it "plays a full round" do
-    game = GofishGame.new
-    game.start(4)
-    game.player_set_hand(1,[Card.new('H', 6), Card.new('H', 9), Card.new('H', 7), Card.new('H', 4), Card.new('H', 3)])
-    game.player_set_hand(2,[Card.new('S', 6), Card.new('S', 9), Card.new('S', 7), Card.new('S', 4), Card.new('S', 3)])
-    game.player_set_hand(3,[Card.new('D', 6), Card.new('D', 9), Card.new('D', 7), Card.new('D', 4), Card.new('D', 3)])
-    game.player_set_hand(4,[Card.new('C', 6), Card.new('C', 9), Card.new('C', 7), Card.new('C', 4), Card.new('C', 3)])
-    player_request = Request.new('player1', 'player3', "J")
-    expect(game.do_turn(player_request)).to eq "Go fish"
-    player_request = Request.new('player2', 'player1', 2)
-    expect(game.do_turn(player_request)).to eq "Go fish"
-    player_request = Request.new('player3', 'player2', 8)
-    expect(game.do_turn(player_request)).to eq "player has a 8"
-    player_request = Request.new('player3', 'player1', 11)
-    expect(game.do_turn(player_request)).to eq "Go fish"
-    player_request = Request.new('player4', 'player3', 13)
-    expect(game.do_turn(player_request)).to eq "Go fish"
-    player_request = Request.new('player1', 'player3', 11)
-    expect(game.do_turn(player_request)).to eq "Go fish"
+    expect(player3.cards_left).to eq 2
   end
 
-  it "returns true if all players do not have any cards" do
+  it "returns player if all players do not have any cards" do
     expect(game.winner).to eq false
     player2.set_hand([Card.new('H', 3), Card.new('S', 3), Card.new('D', 3), Card.new('C', 3)])
     game.pair
@@ -77,7 +60,6 @@ describe 'GofishGame' do
     game.player_set_hand(2, [])
     game.player_set_hand(3, [])
     game.player_set_hand(4, [])
-    expect(game.winner).to eq true
-    expect(game.game_end).to eq "player2 had the most points with 2 points"
+    expect(game.winner).to eq "player2 had the most points with 2 points"
   end
 end
