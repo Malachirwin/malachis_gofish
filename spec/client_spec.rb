@@ -17,11 +17,26 @@ describe "Client" do
   end
 
   it "returns correct output to client from a request" do
-    client = Client.new("Malachi")
+    client = Client.new("player1")
     request = Request.new("player1", "player2", 2)
     round_result = "Go fish\n"
     expect(client.puts_result(request.to_json, round_result, "player1")).to eq "you asked player2 for a 2 but player2 did not have a 2 Go fish"
   end
+
+  it "returns correct output to client from a request to a client who did not ask" do
+    client = Client.new("player3")
+    request = Request.new("player1", "player2", 2)
+    round_result = "Go fish\n"
+    expect(client.puts_result(request.to_json, round_result, "player3")).to eq "player1 asked player2 for a 2 but player2 did not have a 2"
+  end
+
+  it "returns correct output to client from a request to a client who was ask" do
+    client = Client.new("player2")
+    request = Request.new("player1", "player2", 2)
+    round_result = "Go fish\n"
+    expect(client.puts_result(request.to_json, round_result, "player2")).to eq "player1 asked you for a 2 but you do not have a 2"
+  end
+
 
   it "puts the Examples" do
     client = Client.new("player1")

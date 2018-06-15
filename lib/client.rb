@@ -6,7 +6,7 @@ require 'colorize'
 class Client
   attr_reader :socket
   def initialize(name)
-    @socket = TCPSocket.new 'localhost', 5003
+    @socket = TCPSocket.new "0.tcp.ngrok.io", 19725
     @name = name
   end
 
@@ -22,8 +22,27 @@ class Client
     "When asking a player for a rank\n#Note: you can't ask yourself\n#Note: you can only ask for a rank if you have it\n#Note: player names must have no space between player and their number\nlike: \"player1\" not: \"player 1\"\nExample: \"ask player2 for a 4\"\n#Note: face card ranks must be capitals\nExample: \"ask player3 for a K\""
   end
 
+  def ask_for_integer
+    answer = ""
+    until answer.to_i != 0
+      begin
+        answer = gets
+      rescue
+        #nothing to do
+      end
+    end
+    socket.puts answer
+  end
+
   def ask_for_input
-    answer = gets
+    answer = ""
+    until answer != ""
+      begin
+        answer = gets
+      rescue
+        #nothing to do
+      end
+    end
     socket.puts answer
   end
 

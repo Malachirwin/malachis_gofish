@@ -9,7 +9,8 @@ while true
     client = Client.new("Malachi")
     welcome_message = client.get_stuff
     puts welcome_message
-    client.ask_for_input
+    puts "#Note your answer has to be an integer between 3 and 6"
+    client.ask_for_integer
     game_is_starting = client.get_stuff
     puts game_is_starting
     player_name = client.get_stuff
