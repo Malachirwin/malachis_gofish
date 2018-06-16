@@ -163,6 +163,7 @@ class GofishServer
   end
 
   def run_game(game)
+    clients = find_clients(game)
     until game.winner
       if turn != game.player_turn
         @turn = game.player_turn
@@ -173,6 +174,7 @@ class GofishServer
         run_round(game)
       end
     end
+    clients.each {|c| c.puts game.winner}
   end
 
   def wait_for_input(client)
