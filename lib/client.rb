@@ -6,7 +6,7 @@ require 'colorize'
 class Client
   attr_reader :socket
   def initialize(name)
-    @socket = TCPSocket.new "0.tcp.ngrok.io", 19725
+    @socket = TCPSocket.new "localhost", 5003
     @name = name
   end
 

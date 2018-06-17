@@ -10,26 +10,32 @@
     body {
       background-color: green;
     }
+    /* img {
+      width: 71px;
+      height: 96px;
+    } */
+    #center_pile {
+      width: 71px;
+      height: 96px;
+    }
+    #random_number {
+
+    }
     #blockright{
-      padding-right: 50px;
-      position: absolute;
-      right: 0;
-      height: 50%;
+      margin-top: 100px;
+      float: right;
       transform: rotate(90deg)
     }
     #blockleft{
-      padding-left: 50px;
-      position: absolute;
-      left: 0;
-      height: 50%;
+      margin-top: 140px;
+      float: left;
       transform: rotate(-90deg)
-    }
-    #blockbottom {
-      position: absolute;
-      bottom: 0;
     }
     #playing_space {
       height: 300px;
+    }
+    #your_hand {
+      margin-left: -100px;
     }
     #playing_space center {
       margin-top: 140px;
@@ -41,73 +47,84 @@
       background-color: lightblue;
       color: darkblue;
     }
+    #hand {
+      margin-right: -40px;
+      width: 71px;
+      height: 96px;
+    }
   </style>
 
   <body>
     <center><h1 id=heading style="font-size: 100px;">🐟 Go fish 🐠</h1></center>
     <div><center>
       <h2 style="color: darkblue;">player 4</h2>
-      <img src="cards/backs_blue.png" alt="blue card back">
-      <img src="cards/backs_blue.png" alt="blue card back">
-      <img src="cards/backs_blue.png" alt="blue card back">
-      <img src="cards/backs_blue.png" alt="blue card back">
-      <img src="cards/backs_blue.png" alt="blue card back"><br />
-    </div></center>
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back">
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back">
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back">
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back">
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back"><br />
+    </center></div>
 
     <div id=blockright>
-      <center><h2 style="transform: rotate(-90deg); color: darkblue; margin-right: 10px; margin: 50px;">player 2</h2></center>
-      <img src="cards/backs_blue.png" alt="blue card back">
-      <img src="cards/backs_blue.png" alt="blue card back">
-      <img src="cards/backs_blue.png" alt="blue card back">
-      <img src="cards/backs_blue.png" alt="blue card back">
-      <img src="cards/backs_blue.png" alt="blue card back">
+      <center><h2 style=" color: darkblue;">player 2</h2></center>
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back">
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back">
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back">
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back">
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back">
     </div>
 
     <div id=blockleft>
-      <center><h2 style="transform: rotate(90deg); color: darkblue; margin-left: 10px; margin: 50px;">player 3</h2></center>
-      <img src="cards/backs_blue.png" alt="blue card back">
-      <img src="cards/backs_blue.png" alt="blue card back">
-      <img src="cards/backs_blue.png" alt="blue card back">
-      <img src="cards/backs_blue.png" alt="blue card back">
-      <img src="cards/backs_blue.png" alt="blue card back">
+      <center><h2 style="color: darkblue;">player 3</h2></center>
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back">
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back">
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back">
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back">
+      <img id=hand src="cards/backs_custom.jpg" alt="orange card back">
     </div>
 
     <div id=playing_space>
       <center>
-        <img style="transform: rotate(48deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(194deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(275deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(10deg)" src="cards/backs_blue.png" alt="blue card back"><br />
-        <img style="transform: rotate(284deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(19deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(231deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(74deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(24deg)" src="cards/backs_blue.png" alt="blue card back"><br />
-        <img style="transform: rotate(129deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(41deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(74deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(284deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(19deg)" src="cards/backs_blue.png" alt="blue card back"><br />
-        <img style="transform: rotate(231deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(74deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(238deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(191deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(21deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(743deg)" src="cards/backs_blue.png" alt="blue card back"><br />
-        <img style="transform: rotate(284deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(19deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(231deg)" src="cards/backs_blue.png" alt="blue card back">
-        <img style="transform: rotate(74deg)" src="cards/backs_blue.png" alt="blue card back">
+        <img id=center_pile style="transform: rotate(399deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(194deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(275deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(10deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(284deg)" src="cards/backs_custom.jpg" alt="orange card back"><br />
+        <img id=center_pile style="transform: rotate(19deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(231deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(74deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(24deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(129deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(41deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(74deg)" src="cards/backs_custom.jpg" alt="orange card back"><br />
+        <img id=center_pile style="transform: rotate(284deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(19deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(231deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(74deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(238deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(191deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(21deg)" src="cards/backs_custom.jpg" alt="orange card back"><br />
+        <img id=center_pile style="transform: rotate(743deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(284deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(19deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(74deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(300deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(13deg)" src="cards/backs_custom.jpg" alt="orange card back"><br />
+        <img id=center_pile style="transform: rotate(481deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(140deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(732deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(231deg)" src="cards/backs_custom.jpg" alt="orange card back">
+        <img id=center_pile style="transform: rotate(74deg)" src="cards/backs_custom.jpg" alt="orange card back">
       </center>
     </div>
     <div>
       <center>
         <h2 style="color: darkblue;">This is your hand</h2>
-        <img width="150px" src="cards/ca.png" alt="A of Clubs">
-        <img width="150px" src="cards/dk.png" alt="K of Diamonds">
-        <img width="150px" src="cards/s3.png" alt="3 of Spades">
-        <img width="150px" src="cards/h10.png" alt="10 of Hearts">
-        <img width="150px" src="cards/hq.png" alt="Q of Hearts">
+        <img id=your_hand width="150px" src="cards/ca.png" alt="A of Clubs">
+        <img id=your_hand width="150px" src="cards/dk.png" alt="K of Diamonds">
+        <img id=your_hand width="150px" src="cards/s3.png" alt="3 of Spades">
+        <img id=your_hand width="150px" src="cards/h10.png" alt="10 of Hearts">
+        <img id=your_hand width="150px" src="cards/hq.png" alt="Q of Hearts">
       </center>
     </div>
   </body>
