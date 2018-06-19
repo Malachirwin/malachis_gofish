@@ -34,7 +34,7 @@ while true
         else
           print message
         end
-      rescue #Exception => e
+      rescue
         #puts e.message
       end
     end

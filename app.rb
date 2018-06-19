@@ -17,9 +17,6 @@ class App < Sinatra::Base
     client.get_stuff
     client.tell_server("4")
     @client_number = $clients.length - 1
-    if $clients.length >= 4
-      return redirect("/game?client_number=#{@client_number}")
-    end
     redirect("/waiting?client_number=#{@client_number}")
   end
 
@@ -32,6 +29,19 @@ class App < Sinatra::Base
   end
 
   get("/game") do
+    client = $clients[params["client_number"].to_i]
+    client.get_stuff
+    client.get_stuff
+    $cards_or_message = client.get_stuff
+    if $cards_or_message == "It is your turn\n"
+      @cards = client.get_stuff
+    end
+    redirect("/playing_game?client_number=#{params["client_number"]}")
+  end
+
+  get("/playing_game") do
+    @players = ["player1", "player2", "player3", "player4"]
+    @cards = $cards_or_message
     slim(:go_fish)
   end
 end

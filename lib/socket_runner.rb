@@ -10,7 +10,7 @@ loop do
   if game
     Thread.new { server.run_game(game) }
   end
-  sleep(2)
+  sleep(1)
 rescue
   server.stop
 end
