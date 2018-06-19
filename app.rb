@@ -15,6 +15,9 @@ class App < Sinatra::Base
   end
 
   post('/join_game') do
+    if $clients.length >= 4
+      return redirect "/please_wait"
+    end
     client = Client.new
     $clients << client
     client.get_stuff
@@ -24,11 +27,15 @@ class App < Sinatra::Base
   end
 
   get("/waiting") do
-    if $clients.length >= 4
+    if $clients.length % 4 == 0
       redirect("/game?client_number=#{encrypt_client_number client_number}")
     else
       slim(:waiting)
     end
+  end
+
+  get "/please_wait" do
+    slim :please_wait
   end
 
   get("/game") do
