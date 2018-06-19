@@ -2,21 +2,21 @@ h1 style="text-align: center;" Go Fish
 .player_top
   .hand
     - player_name = @players.pop
-    - if player_name == "player#{params["client_number"].to_i + 1}"
+    - if player_name == "player#{@client_number+ 1}"
       - player_name = @players.pop
     h2 = player_name
     - 5.times do
       img class="card" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
 .hand_side_right
   - player_name = @players.pop
-  - if player_name == "player#{params["client_number"].to_i + 1}"
+  - if player_name == "player#{@client_number+ 1}"
     - player_name = @players.pop
   h2 = player_name
   - 5.times do
     img class="card" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
 .hand_side_left
   - player_name = @players.pop
-  - if player_name == "player#{params["client_number"].to_i + 1}"
+  - if player_name == "player#{@client_number+ 1}"
     - player_name = @players.pop
   h2 = player_name
   - 5.times do
@@ -41,7 +41,7 @@ h1 style="text-align: center;" Go Fish
     img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
   br
 .player_hand
-  h2 you are player #{(params["client_number"].to_i + 1).to_s}
+  h2 you are player #{@client_number + 1}
   - cards = @cards.chomp.split(", ")
   -cards.each do |card|
     - rank, suit = card.split(" of ")
