@@ -28,7 +28,7 @@ class GofishServer
   end
 
   def port_number
-    5003
+    5005
   end
 
   def game_count

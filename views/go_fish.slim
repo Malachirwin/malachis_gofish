@@ -1,0 +1,40 @@
+h1 style="text-align: center;" Go Fish
+.player_top
+  .hand
+    h2 player 1
+    - 5.times do
+      img class="card" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
+.hand_side_right
+  h2 player 2
+  - 5.times do
+    img class="card" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
+.hand_side_left
+  h2 player 3
+  - 5.times do
+    img class="card" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
+.playing_space
+  - 4.times do
+    img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
+  br
+  - 5.times do
+    img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
+  br
+  - 6.times do
+    img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
+  br
+  - 7.times do
+    img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
+  br
+  - 6.times do
+    img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
+  br
+  - 4.times do
+    img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
+  br
+.player_hand
+  h2 your hand
+  img class="your_hand" width=90 src="cards/c3.png" alt="3 of Clubs"
+  img class="your_hand" width=90 src="cards/d9.png" alt="9 of Diamonds"
+  img class="your_hand" width=90 src="cards/h2.png" alt="2 of Hearts"
+  img class="your_hand" width=90 src="cards/s6.png" alt="6 of Spades"
+  img class="your_hand" width=90 src="cards/da.png" alt="a of Diamonds"

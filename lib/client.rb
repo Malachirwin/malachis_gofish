@@ -5,13 +5,20 @@ require 'colorize'
 
 class Client
   attr_reader :socket
-  def initialize(name)
-    @socket = TCPSocket.new "localhost", 5003
+  def initialize(name="")
+    @socket = TCPSocket.new "localhost", 5005
     @name = name
   end
 
   def name
     @name
+  end
+
+  def read_stuff(delay=0.1)
+    sleep(delay)
+    socket.read_nonblock(1000)
+  rescue
+    ''
   end
 
   def get_stuff
@@ -44,6 +51,10 @@ class Client
       end
     end
     socket.puts answer
+  end
+
+  def tell_server(info)
+    socket.puts info
   end
 
   def puts_result(request, round_result, player_name)
