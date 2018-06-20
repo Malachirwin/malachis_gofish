@@ -1,10 +1,10 @@
 h1 style="text-align: center;" Go Fish
 .player_top
-  == slim :hand, locals: { player_name: '@other_players[0]' }
+  == slim :hand, locals: { player_name: @other_players[0] }
 .side-right
-  == slim :hand, locals: { player_name: '@other_players[1]' }
+  == slim :hand, locals: { player_name: @other_players[1] }
 .side-left
-  == slim :hand, locals: { player_name: '@other_players[2]' }
+  == slim :hand, locals: { player_name: @other_players[2] }
 .playing_space
   - 4.times do
     img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
@@ -26,8 +26,8 @@ h1 style="text-align: center;" Go Fish
   br
 .player_hand
   h2 you are player #{@client_number + 1}
-  - cards = @cards.chomp.split(", ")
-  -cards.each do |card|
-    - rank, suit = card.split(" of ")
-    - suit = suit[0]
-    img class="your_hand" width=90 src="cards/#{suit.downcase}#{rank.downcase}.png" alt="#{rank} of #{suit}"
+  - @cards.each do |card|
+    img class="your_hand" width=90 src="cards/#{card.to_img_path}.png" alt=card.value
+- if params["turn"] != 'true'
+  javascript:
+    setTimeout(function(){location.reload()}, 5000);

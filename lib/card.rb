@@ -7,6 +7,17 @@ class Card
     @rank = rank
   end
 
+  def self.from_value(value)
+    rank, suit = value.split(" of ")
+    card_rank = RANKS.key(rank)
+    card_suit = suit[0]
+    Card.new(card_suit, card_rank)
+  end
+
+  def to_img_path
+    "#{suit.downcase}#{rank_value.downcase}"
+  end
+
   def rank
     @rank
   end
@@ -18,7 +29,7 @@ class Card
   def rank_value
     RANKS[rank]
   end
-  
+
   def value
     "#{RANKS[rank]} of #{SUITS[suit]}"
   end
