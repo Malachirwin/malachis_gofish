@@ -4,19 +4,13 @@ body {
 .hand .card {
   margin-left: -40px;
 }
-.hand_side_right {
+.side-right {
   transform: rotate(90deg);
   float: right;
 }
-.hand_side_right .card {
-  margin-left: -40px;
-}
-.hand_side_left {
+.side-left {
   transform: rotate(-90deg);
   float: left;
-}
-.hand_side_left .card {
-  margin-left: -40px;
 }
 .playing_space {
   text-align: center;

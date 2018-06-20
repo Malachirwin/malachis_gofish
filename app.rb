@@ -9,25 +9,26 @@ $clients = []
 
 class App < Sinatra::Base
   MESSAGE_KEY = OpenSSL::Cipher.new('DES-EDE3-CBC').encrypt.random_key
+  NUMBER_OF_PLAYERS = 4
 
   get("/") do
     slim(:welcome_join)
   end
 
   post('/join_game') do
-    if $clients.length >= 4
+    if $clients.length >= NUMBER_OF_PLAYERS
       return redirect "/please_wait"
     end
     client = Client.new
     $clients << client
     client.get_stuff
-    client.tell_server("4")
     client_number = $clients.length - 1
+    client.tell_server(NUMBER_OF_PLAYERS.to_s)
     redirect("/waiting?client_number=#{encrypt_client_number client_number}")
   end
 
   get("/waiting") do
-    if $clients.length % 4 == 0
+    if $clients.length % NUMBER_OF_PLAYERS == 0
       redirect("/game?client_number=#{encrypt_client_number client_number}")
     else
       slim(:waiting)

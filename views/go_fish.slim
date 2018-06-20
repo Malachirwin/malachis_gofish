@@ -1,26 +1,10 @@
 h1 style="text-align: center;" Go Fish
 .player_top
-  .hand
-    - player_name = @players.pop
-    - if player_name == "player#{@client_number+ 1}"
-      - player_name = @players.pop
-    h2 = player_name
-    - 5.times do
-      img class="card" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
-.hand_side_right
-  - player_name = @players.pop
-  - if player_name == "player#{@client_number+ 1}"
-    - player_name = @players.pop
-  h2 = player_name
-  - 5.times do
-    img class="card" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
-.hand_side_left
-  - player_name = @players.pop
-  - if player_name == "player#{@client_number+ 1}"
-    - player_name = @players.pop
-  h2 = player_name
-  - 5.times do
-    img class="card" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
+  == slim :hand, locals: { player_name: '@other_players[0]' }
+.side-right
+  == slim :hand, locals: { player_name: '@other_players[1]' }
+.side-left
+  == slim :hand, locals: { player_name: '@other_players[2]' }
 .playing_space
   - 4.times do
     img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
