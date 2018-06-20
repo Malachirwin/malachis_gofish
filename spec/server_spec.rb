@@ -117,10 +117,8 @@ describe "Server" do
           server.tell_clients_whos_turn(game)
           expect(client1.capture_output).to eq "It is your turn\n"
           client1.provide_input "player3, do you have a 3"
-          game.player_set_hand(2, [Card.new("H", 2), Card.new("D", 8)])
-          game.player_set_hand(3, [Card.new("H", 2), Card.new("D", 5)])
-          game.player_set_hand(1, [Card.new("H", 2), Card.new("D", 6)])
-          expect(server.run_round(game)).to eq  ["3 of Hearts", "{\"player_who_asked\":\"player1\",\"player_who_was_asked\":\"player3\",\"desired_rank\":\"3\"}"]
+          server.run_round(game)
+          expect(client1.capture_output).to eq  "Result: 3 of Hearts\n{\"player_who_asked\":\"player1\",\"player_who_was_asked\":\"player3\",\"desired_rank\":\"3\"}\n"
           client1.capture_output
         end
       end
