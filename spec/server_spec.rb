@@ -77,15 +77,7 @@ describe "Server" do
         @clients << client7
         @clients << client8
         @clients << client9
-        server.accept_new_client
-        server.accept_new_client
-        server.accept_new_client
-        server.accept_new_client
-        server.accept_new_client
-        server.accept_new_client
-        server.accept_new_client
-        server.accept_new_client
-        server.accept_new_client
+        9.times {server.accept_new_client}
       end
 
       it "with three players two six players" do
@@ -103,9 +95,10 @@ describe "Server" do
         server.create_game_if_possible
         expect(server.game_count).to eq 2
       end
-      
+
       context "After game is created" do
         before do
+          client1
           client1.provide_input "3"
           client2.provide_input "3"
           client3.provide_input "3"
@@ -121,62 +114,14 @@ describe "Server" do
           expect(client2.capture_output).to eq "The game is starting\nplayer2\n"
           expect(client3.capture_output).to eq "The game is starting\nplayer3\n"
           expect(client1.capture_output).to eq "The game is starting\nplayer1\n"
-          server.tell_clients_their_cards(game)
-          server.tell_clients_playing_cards(game)
-          expect(client2.capture_output).to eq "3 of Hearts, 9 of Diamonds\n"
-          expect(client3.capture_output).to eq "3 of Hearts, 6 of Diamonds\n"
-          expect(client1.capture_output).to eq "3 of Hearts, 7 of Diamonds\n"
           server.tell_clients_whos_turn(game)
           expect(client1.capture_output).to eq "It is your turn\n"
           client1.provide_input "player3, do you have a 3"
           game.player_set_hand(2, [Card.new("H", 2), Card.new("D", 8)])
           game.player_set_hand(3, [Card.new("H", 2), Card.new("D", 5)])
           game.player_set_hand(1, [Card.new("H", 2), Card.new("D", 6)])
-          server.run_round(game)
-          expect(client1.capture_output).to eq  "Result: 3 of Hearts\n{\"player_who_asked\":\"player1\",\"player_who_was_asked\":\"player3\",\"desired_rank\":\"3\"}\n"
-          expect(client2.capture_output).to eq "Result: 3 of Hearts\n{\"player_who_asked\":\"player1\",\"player_who_was_asked\":\"player3\",\"desired_rank\":\"3\"}\n"
-          expect(client3.capture_output).to eq "Result: 3 of Hearts\n{\"player_who_asked\":\"player1\",\"player_who_was_asked\":\"player3\",\"desired_rank\":\"3\"}\n"
+          expect(server.run_round(game)).to eq  ["3 of Hearts", "{\"player_who_asked\":\"player1\",\"player_who_was_asked\":\"player3\",\"desired_rank\":\"3\"}"]
           client1.capture_output
-          server.tell_clients_whos_turn(game)
-          expect(client1.capture_output).to eq "It is your turn\n"
-          client1.provide_input "player3, do you have a 7"
-          game.player_set_hand(2, [Card.new("H", 2), Card.new("D", 8)])
-          game.player_set_hand(3, [Card.new("H", 2), Card.new("D", 5)])
-          game.player_set_hand(1, [Card.new("H", 2), Card.new("D", 6)])
-          server.run_round(game)
-          expect(client1.capture_output).to eq "Result: Go fish\n{\"player_who_asked\":\"player1\",\"player_who_was_asked\":\"player3\",\"desired_rank\":\"7\"}\n"
-          expect(client2.capture_output).to eq "Result: Go fish\n{\"player_who_asked\":\"player1\",\"player_who_was_asked\":\"player3\",\"desired_rank\":\"7\"}\n"
-          expect(client3.capture_output).to eq "Result: Go fish\n{\"player_who_asked\":\"player1\",\"player_who_was_asked\":\"player3\",\"desired_rank\":\"7\"}\n"
-          server.tell_clients_whos_turn(game)
-          expect(client2.capture_output).to eq "It is your turn\n"
-          client2.provide_input "player1, do you have a 9"
-          game.player_set_hand(2, [Card.new("H", 2), Card.new("D", 8)])
-          game.player_set_hand(3, [Card.new("H", 2), Card.new("D", 5)])
-          game.player_set_hand(1, [Card.new("H", 2), Card.new("D", 6)])
-          server.run_round(game)
-          expect(client2.capture_output).to eq "Result: Go fish\n{\"player_who_asked\":\"player2\",\"player_who_was_asked\":\"player1\",\"desired_rank\":\"9\"}\n"
-          expect(client1.capture_output).to eq "Result: Go fish\n{\"player_who_asked\":\"player2\",\"player_who_was_asked\":\"player1\",\"desired_rank\":\"9\"}\n"
-          expect(client3.capture_output).to eq "Result: Go fish\n{\"player_who_asked\":\"player2\",\"player_who_was_asked\":\"player1\",\"desired_rank\":\"9\"}\n"
-          server.tell_clients_whos_turn(game)
-          expect(client3.capture_output).to eq "It is your turn\n"
-          client3.provide_input "player2, do you have a 6"
-          game.player_set_hand(2, [Card.new("H", 2), Card.new("D", 8)])
-          game.player_set_hand(3, [Card.new("H", 2), Card.new("D", 5)])
-          game.player_set_hand(1, [Card.new("H", 2), Card.new("D", 6)])
-          server.run_round(game)
-          expect(client3.capture_output).to eq "Result: Go fish\n{\"player_who_asked\":\"player3\",\"player_who_was_asked\":\"player2\",\"desired_rank\":\"6\"}\n"
-          expect(client2.capture_output).to eq "Result: Go fish\n{\"player_who_asked\":\"player3\",\"player_who_was_asked\":\"player2\",\"desired_rank\":\"6\"}\n"
-          expect(client1.capture_output).to eq "Result: Go fish\n{\"player_who_asked\":\"player3\",\"player_who_was_asked\":\"player2\",\"desired_rank\":\"6\"}\n"
-          server.tell_clients_whos_turn(game)
-          expect(client1.capture_output).to eq "It is your turn\n"
-          client1.provide_input "ask player3 for 7"
-          game.player_set_hand(2, [Card.new("H", 2), Card.new("D", 8)])
-          game.player_set_hand(3, [Card.new("H", 2), Card.new("D", 5)])
-          game.player_set_hand(1, [Card.new("H", 2), Card.new("D", 6)])
-          server.run_round(game)
-          expect(client1.capture_output).to eq "Result: Go fish\n{\"player_who_asked\":\"player1\",\"player_who_was_asked\":\"player3\",\"desired_rank\":\"7\"}\n"
-          expect(client2.capture_output).to eq "Result: Go fish\n{\"player_who_asked\":\"player1\",\"player_who_was_asked\":\"player3\",\"desired_rank\":\"7\"}\n"
-          expect(client3.capture_output).to eq "Result: Go fish\n{\"player_who_asked\":\"player1\",\"player_who_was_asked\":\"player3\",\"desired_rank\":\"7\"}\n"
         end
       end
     end
