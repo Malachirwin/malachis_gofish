@@ -138,13 +138,7 @@ class GofishServer
       next if client == client_playing
       client_num = clients.index(client)
       cards = game.players[client_num].player_hand
-      cards.each.with_index do |card, index|
-        if (cards.count - 1) != (index)
-          client.print "#{card.value}, "
-        else
-          client.puts "#{card.value}"
-        end
-      end
+      client.puts cards.map(&:value).join(', ')
     end
   end
 
@@ -153,13 +147,7 @@ class GofishServer
     client = find_client_by_turn(game)
     client_num = clients.index(client)
     cards = game.players[client_num].player_hand
-    cards.each.with_index do |card, index|
-      if (cards.count - 1) != (index)
-        client.print "#{card.value}, "
-      else
-        client.puts "#{card.value}"
-      end
-    end
+    client.puts cards.map(&:value).join(', ')
   end
 
   def run_game(game)
