@@ -1,35 +1,54 @@
-require "./lib/client"
+require "./lib/request"
 require "pry"
 require "sinatra"
 require "sinatra/reloader"
 require './lib/encrypting_and_decrypting'
-Thread.new { require "./lib/socket_runner.rb" }
+require "./lib/game"
+require 'pusher'
 
-$clients = {}
+$clients = []
+$game = nil
 
 class App < Sinatra::Base
   MESSAGE_KEY = OpenSSL::Cipher.new('DES-EDE3-CBC').encrypt.random_key
   NUMBER_OF_PLAYERS = 4
+  def pusher_client
+    @pusher_client ||= Pusher::Client.new(
+      app_id: "547002",
+      key: "e09b3296658d893c5367",
+      secret: "1b2821037b4218f1ee2c",
+      cluster: "us2"
+    )
+  end
 
   get("/") do
     slim(:welcome_join)
   end
 
   post('/join_game') do
-    if $clients.keys.length >= NUMBER_OF_PLAYERS
+    if $clients.length > NUMBER_OF_PLAYERS
       return redirect "/please_wait"
     end
-    client = Client.new
-    $clients[client] = []
-    client.get_stuff
-    client.tell_server(NUMBER_OF_PLAYERS.to_s)
-    client_number = $clients.keys.length - 1
-    redirect("/waiting?client_number=#{encrypt_client_number client_number}")
+    client = params["name"]
+    $clients.push(client)
+    client_number = $clients.length - 1
+    $message = "yes"
+    binding.pry
+    redirect("/waiting?name=#{encrypt_client_name client}")
   end
 
   get("/waiting") do
-    if $clients.keys.length % NUMBER_OF_PLAYERS == 0
-      redirect("/game?client_number=#{encrypt_client_number client_number}")
+    if $clients.length == NUMBER_OF_PLAYERS
+      if $message == "yes"
+        $message = "no"
+        pusher_client.trigger('app', 'Game-is-starting', {message: 'Game is starting'})
+      end
+      $game ||= GofishGame.new
+      if $game.players == nil
+        $game.start(NUMBER_OF_PLAYERS, $clients)
+      end
+      binding.pry
+      redirect("/playing_game?name=#{encrypt_client_name client_name}")
     else
       slim(:waiting)
     end
@@ -39,27 +58,41 @@ class App < Sinatra::Base
     slim :please_wait
   end
 
-  get("/game") do
-    client = $clients.keys[client_number]
-    m1 = client.get_stuff
-    m2 = client.get_stuff
-    cards_or_message = client.get_stuff
-    $clients[client] = cards_or_message.chomp.split(", ")
-    if client.read_stuff == "It is your turn\n"
-      redirect("/playing_game?turn=true&client_number=#{encrypt_client_number client_number}")
+  post "/playing_game" do
+    if client_name == $game.player_who_is_playing.name
+      @turn = true
+    end
+    request = params["request"]
+    regex = /ask\s(\w+).*\s(\w{2}|\w{1})/i
+    if request.match(regex)
+      matches = request.match(regex).captures
+      if matches[0] == $game.players[$game.player_turn - 1].name
+        redirect("/playing_game?name=#{encrypt_client_name client_name}")
+      else
+        request = Request.new(client_name, matches[0], matches[1])
+        result = $game.do_turn(request)
+        if result == "you can't ask that"
+          return redirect("/playing_game?name=#{encrypt_client_name client_name}")
+        end
+        @other_players = $game.players.reject { |player| player.name == client_name }
+        $message = "yes"
+        redirect("/playing_game?name=#{encrypt_client_name client_name}")
+      end
     else
-      redirect("/playing_game?client_number=#{encrypt_client_number client_number}")
+      pusher_client.trigger('player_turn', 'invalid-request', {message: "You can't ask that"})
+      redirect("/playing_game?name=#{encrypt_client_name client_name}")
     end
   end
 
   get("/playing_game") do
-    @player = "player#{client_number + 1}"
-    @other_players = $clients.map.with_index do |client, index|
-      "player#{index + 1}"
-    end.reject do |name|
-      name == @player
+    if $message == "yes"
+      $message = "no"
+      pusher_client.trigger('app', 'next-turn', {message: 'next turn'})
     end
-    @cards = cards
+    if client_name == $game.player_who_is_playing.name
+      @turn = true
+    end
+    @other_players = $game.players.reject { |player| player.name == client_name }
     slim(:go_fish)
   end
 
@@ -69,17 +102,23 @@ class App < Sinatra::Base
     @client_number ||= decrypt_client_number(params['client_number'])
   end
 
-  def cards
-    $clients.values[client_number].map do |card|
-      Card.from_value(card)
-    end
+  def client_name
+    @client_name ||= decrypt_client_name(params["name"])
   end
 
   def encrypt_client_number(number)
     "hello-#{number}-dolly".encrypt(MESSAGE_KEY)
   end
 
+  def encrypt_client_name(name)
+    name.encrypt(MESSAGE_KEY)
+  end
+
   def decrypt_client_number(text)
     text.decrypt(MESSAGE_KEY).split('-')[1].to_i
+  end
+
+  def decrypt_client_name(text)
+    text.decrypt(MESSAGE_KEY).split('-')[0]
   end
 end
