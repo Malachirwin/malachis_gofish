@@ -11,11 +11,11 @@ class GofishGame
     @player_turn = 1
   end
 
-  def start(number_of_players)
+  def start(number_of_players, names=["player1", "player2", "player3", "player4"])
     @deck = CardDeck.new
     @players = []
     number_of_players.times do |index|
-      @players << Player.new("player#{index + 1}")
+      @players << Player.new(names[index])
     end
     @deck.deal(@deck, *@players)
     @games += 1
@@ -159,6 +159,10 @@ class GofishGame
 
   def players
     @players
+  end
+
+  def player_who_is_playing
+    players[player_turn - 1]
   end
 
   private
