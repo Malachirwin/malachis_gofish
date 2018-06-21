@@ -8,3 +8,4 @@ gem "sinatra-contrib"
 gem "launchy"
 gem "rack-test"
 gem 'slim'
+gem "pusher"
