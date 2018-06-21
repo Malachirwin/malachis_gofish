@@ -7,24 +7,7 @@ h1 style="text-align: center;" Go Fish
 .side-left
   == slim :hand, locals: { player: @other_players[2] }
 .playing_space
-  - 4.times do
-    img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
-  br
-  - 5.times do
-    img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
-  br
-  - 6.times do
-    img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
-  br
-  - 7.times do
-    img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
-  br
-  - 6.times do
-    img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
-  br
-  - 4.times do
-    img class="center_pile" style="transform: rotate(#{rand(360)}deg)" width=71 height=96 src="cards/backs_custom.jpg" alt="custom card back"
-  br
+  == slim :center_pile
 .player_hand
   -if @turn
     h1 It is your turn
@@ -37,6 +20,10 @@ h1 style="text-align: center;" Go Fish
     - if player.name == @client_name
       - player.player_hand.each do |card|
         img class="your_hand" width=90 src="cards/#{card.to_img_path}.png" alt=card.value
+.result
+  - $results.each do |result|
+    = result
+    br
 javascript:
   const pusher = new Pusher("e09b3296658d893c5367", {
     cluster: "us2"

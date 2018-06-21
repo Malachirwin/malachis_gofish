@@ -8,6 +8,7 @@ require 'pusher'
 
 $clients = []
 $game = nil
+$results = []
 
 class App < Sinatra::Base
   MESSAGE_KEY = OpenSSL::Cipher.new('DES-EDE3-CBC').encrypt.random_key
@@ -33,7 +34,6 @@ class App < Sinatra::Base
     $clients.push(client)
     client_number = $clients.length - 1
     $message = "yes"
-    binding.pry
     redirect("/waiting?name=#{encrypt_client_name client}")
   end
 
@@ -47,7 +47,7 @@ class App < Sinatra::Base
       if $game.players == nil
         $game.start(NUMBER_OF_PLAYERS, $clients)
       end
-      binding.pry
+      $result = "The game is starting"
       redirect("/playing_game?name=#{encrypt_client_name client_name}")
     else
       slim(:waiting)
@@ -76,10 +76,16 @@ class App < Sinatra::Base
         end
         @other_players = $game.players.reject { |player| player.name == client_name }
         $message = "yes"
+        # binding.pry
+        if result == "Go fish"
+          final_result = "#{client_name} asked #{matches[0]} for a #{matches[1]} but #{matches[0]} did not have one"
+        else
+          final_result = "#{matches[0]} gave #{client_name} the #{result}"
+        end
+        $results.push(final_result)
         redirect("/playing_game?name=#{encrypt_client_name client_name}")
       end
     else
-      pusher_client.trigger('player_turn', 'invalid-request', {message: "You can't ask that"})
       redirect("/playing_game?name=#{encrypt_client_name client_name}")
     end
   end
@@ -87,7 +93,7 @@ class App < Sinatra::Base
   get("/playing_game") do
     if $message == "yes"
       $message = "no"
-      pusher_client.trigger('app', 'next-turn', {message: 'next turn'})
+      pusher_client.trigger('app', 'next-turn', {message: "next turn"})
     end
     if client_name == $game.player_who_is_playing.name
       @turn = true

@@ -20,6 +20,12 @@ body {
   margin-top: -40px;
   /* transform: rotate(#{rand(360)}deg); */
 }
+.result {
+  float: right;
+  float: bottom;
+  margin-right: 50px;
+  margin-bottom: 50px;
+}
 .player_hand {
   margin-top: 100px;
   text-align: center;

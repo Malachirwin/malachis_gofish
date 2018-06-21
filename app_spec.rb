@@ -17,11 +17,6 @@ describe 'app', {:type => :feature} do
     expect(page).to have_content('Welcome to Go Fish')
   end
 
-  it("loads the static game page") do
-    visit('/game')
-    expect(page).to have_content('your hand')
-  end
-
   it("does multiple sessions") do
     session1 = Capybara::Session.new(:rack_test, App.new)
     session2 = Capybara::Session.new(:rack_test, App.new)
@@ -34,11 +29,7 @@ describe 'app', {:type => :feature} do
     session3.visit("/")
     session3.click_on("join")
     expect(session3).to have_content("your hand")
-    session1.visit("/game")
-    session2.visit("/game")
-    session3.visit("/game")
     expect(session1).to have_content("your hand")
     expect(session2).to have_content("your hand")
-    expect(session3).to have_content("your hand")
   end
 end

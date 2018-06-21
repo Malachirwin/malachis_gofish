@@ -165,6 +165,10 @@ class GofishGame
     players[player_turn - 1]
   end
 
+  def cards_left_in_deck
+    deck.cards_left
+  end
+
   private
   attr_reader :deck
 end
