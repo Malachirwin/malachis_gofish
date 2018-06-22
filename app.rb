@@ -4,7 +4,7 @@ require "sinatra"
 require "sinatra/reloader"
 require './lib/encrypting_and_decrypting'
 require "./lib/game"
-require 'pusher'
+# require 'pusher'
 
 $clients = []
 $game = nil
@@ -13,14 +13,14 @@ $results = []
 class App < Sinatra::Base
   MESSAGE_KEY = OpenSSL::Cipher.new('DES-EDE3-CBC').encrypt.random_key
   NUMBER_OF_PLAYERS = 4
-  def pusher_client
-    @pusher_client ||= Pusher::Client.new(
-      app_id: "547002",
-      key: "e09b3296658d893c5367",
-      secret: "1b2821037b4218f1ee2c",
-      cluster: "us2"
-    )
-  end
+  # def pusher_client
+  #   @pusher_client ||= Pusher::Client.new(
+  #     app_id: "547002",
+  #     key: "e09b3296658d893c5367",
+  #     secret: "1b2821037b4218f1ee2c",
+  #     cluster: "us2"
+  #   )
+  # end
 
   get("/") do
     slim(:welcome_join)
@@ -41,7 +41,7 @@ class App < Sinatra::Base
     if $clients.length == NUMBER_OF_PLAYERS
       if $message == "yes"
         $message = "no"
-        pusher_client.trigger('app', 'Game-is-starting', {message: 'Game is starting'})
+        # pusher_client.trigger('app', 'Game-is-starting', {message: 'Game is starting'})
       end
       $game ||= GofishGame.new
       if $game.players == nil
@@ -74,9 +74,9 @@ class App < Sinatra::Base
         if result == "you can't ask that"
           return redirect("/playing_game?name=#{encrypt_client_name client_name}")
         end
+        @player = $game.find_player_by_name(client_name)
         @other_players = $game.players.reject { |player| player.name == client_name }
         $message = "yes"
-        # binding.pry
         if result == "Go fish"
           final_result = "#{client_name} asked #{matches[0]} for a #{matches[1]} but #{matches[0]} did not have one"
         else
@@ -93,11 +93,12 @@ class App < Sinatra::Base
   get("/playing_game") do
     if $message == "yes"
       $message = "no"
-      pusher_client.trigger('app', 'next-turn', {message: "next turn"})
+      # pusher_client.trigger('app', 'next-turn', {message: "next turn"})
     end
     if client_name == $game.player_who_is_playing.name
       @turn = true
     end
+    @player = $game.find_player_by_name(client_name)
     @other_players = $game.players.reject { |player| player.name == client_name }
     slim(:go_fish)
   end

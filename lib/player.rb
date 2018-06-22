@@ -29,6 +29,10 @@ class Player
     @match.count
   end
 
+  def matches
+    @match
+  end
+
   def take(cards)
     @cards.push(*cards)
   end

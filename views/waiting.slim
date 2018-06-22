@@ -1,12 +1,12 @@
-script src="https://js.pusher.com/4.2/pusher.min.js"
-h1.center Waiting for opponents
-.loader-container
-  .loader
+/ script src="https://js.pusher.com/4.2/pusher.min.js"
+h1.center.slide Waiting for opponents
+.loader-container.swim
+  img style="font-size: 200px; margin-right: -100px;" src="cards/backs_custom.jpg"
 javascript:
-  const pusher = new Pusher("e09b3296658d893c5367", {
-    cluster: "us2"
-  });
-  const channel = pusher.subscribe('app');
-  channel.bind('Game-is-starting', function(data) {
-    window.location.reload()
-  });
+  // const pusher = new Pusher("e09b3296658d893c5367", {
+  //   cluster: "us2"
+  // });
+  // const channel = pusher.subscribe('app');
+  // channel.bind('Game-is-starting', function(data) {
+  //   window.location.reload()
+  // });

@@ -103,9 +103,8 @@ class GofishGame
             matches.each do |card|
               player.player_hand.delete(card)
             end
-          else
-            matches = []
           end
+          matches = []
         end
       end
     rescue NoMethodError

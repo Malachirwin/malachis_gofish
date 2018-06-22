@@ -1,0 +1,5 @@
+- if player.matches != []
+  - player.matches.each do |match|
+    img.match
+    - match.each do |card|
+      img class="match" src="cards/#{card.to_img_path}.png"

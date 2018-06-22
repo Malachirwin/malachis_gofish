@@ -1,13 +1,20 @@
-script src="https://js.pusher.com/4.2/pusher.min.js"
+/ script src="https://js.pusher.com/4.2/pusher.min.js"
 h1 style="text-align: center;" Go Fish
 .player_top
   == slim :hand, locals: { player: @other_players[0] }
+  == slim :matches, locals: { player: @other_players[0] }
 .side-right
   == slim :hand, locals: { player: @other_players[1] }
+  == slim :matches, locals: { player: @other_players[1] }
 .side-left
   == slim :hand, locals: { player: @other_players[2] }
+  == slim :matches, locals: { player: @other_players[2] }
 .playing_space
   == slim :center_pile
+.result.border
+  - $results.reverse.first(10).each do |result|
+    = result
+    br
 .player_hand
   -if @turn
     h1 It is your turn
@@ -15,20 +22,17 @@ h1 style="text-align: center;" Go Fish
       input style="font-size: 30px;" type="type" value="ask #playername for a 4" name="request"
       br
       input type="submit"
-  h2 = @client_name
-  -$game.players.each do |player|
-    - if player.name == @client_name
-      - player.player_hand.each do |card|
-        img class="your_hand" width=90 src="cards/#{card.to_img_path}.png" alt=card.value
-.result
-  - $results.each do |result|
-    = result
-    br
-javascript:
-  const pusher = new Pusher("e09b3296658d893c5367", {
-    cluster: "us2"
-  });
-  const channel = pusher.subscribe('app');
-  channel.bind('next-turn', function(data) {
-    window.location.reload()
-  });
+  h2 = @player.name
+  - @player.player_hand.each do |card|
+    img class="your_hand" width=90 src="cards/#{card.to_img_path}.png" alt=card.value
+  br
+.center
+  == slim :matches, locals: { player: @player }
+// javascript:
+//   const pusher = new Pusher("e09b3296658d893c5367", {
+//     cluster: "us2"
+//   });
+//   const channel = pusher.subscribe('app');
+//   channel.bind('next-turn', function(data) {
+//     window.location.reload()
+//   });
