@@ -1,1 +1,12 @@
-h1 Sorry there are no available seats 
+script src="https://js.pusher.com/4.2/pusher.min.js"
+.center
+  h1 Sorry there are no available seats
+  h2 This is the current game status
+  h3 These are the players in the game
+  h3 style="margin-top: -20px" = $clients.join(", ")
+  br
+  - $results.reverse.each do |r|
+    = r
+    br
+javascript:
+  setTimeout(function() { window.location.reload(); }, 3000);

@@ -153,6 +153,13 @@ class GofishGame
     result = card_in_player_hand(player_who_was_asked, player_request.desired_rank, player_who_asked)
     pair
     no_cards
+    players.each do |player|
+      player.player_hand.each do |card|
+        if card == nil
+          player.player_hand.delete(card)
+        end
+      end
+    end
     result
   end
 
