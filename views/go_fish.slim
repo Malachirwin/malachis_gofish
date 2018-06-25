@@ -19,7 +19,7 @@ h1 style="text-align: center;" Go Fish
   -if @turn
     h1 It is your turn
     form method="post"
-      input style="font-size: 30px;" type="type" value="ask #playername for a 4" name="request"
+      input style="font-size: 30px;" type="type" placeholder="ask #playername for a 4" name="request"
       br
       input type="submit"
   h2 = @player.name
