@@ -5,6 +5,7 @@ require "sinatra/reloader"
 require './../lib/encrypting_and_decrypting'
 require "./../lib/game"
 require "json"
+require "sinatra/json"
 
 $clients = []
 $pending_clients = []
@@ -16,7 +17,7 @@ class App < Sinatra::Base
   MESSAGE_KEY = OpenSSL::Cipher.new('DES-EDE3-CBC').encrypt.random_key
   NUMBER_OF_PLAYERS = 4
 
-  post('/') do
+  post('/join') do
     json_obj = JSON.parse(request.body.read)
     $clients.push(json_obj["name"])
     $game ||= GofishGame.new
@@ -25,13 +26,11 @@ class App < Sinatra::Base
     else
       $game.start(4, [json_obj["name"], "Jimmy", "Timmy", "Limmy"])
     end
-    {status: 200, game_id: $game.token, message: "Hi #{json_obj["name"]}"}.to_json
+    json {status: 200, message: "Hi #{json_obj["name"]}"}
   end
 
   get "/game" do
-    # $game = GofishGame.new
-    # $game.start(4, ["Malachi", "Jimmy", "Timmy", "Limmy"])
-    {game: $game}.to_json
+    json {game: $game}
   end
 
   private
