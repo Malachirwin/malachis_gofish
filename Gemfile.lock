@@ -8,29 +8,45 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
+    archive-zip (0.11.0)
+      io-like (~> 0.3.0)
     backports (3.11.3)
+    capybara (3.2.1)
+      addressable
+      mini_mime (>= 0.1.3)
+      nokogiri (~> 1.8)
+      rack (>= 1.6.0)
+      rack-test (>= 0.6.3)
+      xpath (~> 3.1)
+    capybara-selenium (0.0.6)
+      capybara
+      selenium-webdriver
+    childprocess (0.9.0)
+      ffi (~> 1.0, >= 1.0.11)
+    chromedriver-helper (1.2.0)
+      archive-zip (~> 0.10)
+      nokogiri (~> 1.8)
     coderay (1.1.2)
-    colorize (0.8.1)
     concurrent-ruby (1.0.5)
     diff-lcs (1.3)
-    httpclient (2.8.3)
+    ffi (1.9.25)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
+    io-like (0.3.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     method_source (0.9.0)
+    mini_mime (1.0.0)
+    mini_portile2 (2.3.0)
     minitest (5.11.3)
     multi_json (1.13.1)
     mustermann (1.0.2)
+    nokogiri (1.8.3)
+      mini_portile2 (~> 2.3.0)
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     public_suffix (3.0.2)
-    pusher (1.3.1)
-      httpclient (~> 2.7)
-      multi_json (~> 1.0)
-      pusher-signature (~> 0.1.8)
-    pusher-signature (0.1.8)
     rack (2.0.5)
     rack-protection (2.0.3)
       rack
@@ -49,6 +65,10 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
+    rubyzip (1.2.1)
+    selenium-webdriver (3.12.0)
+      childprocess (~> 0.5)
+      rubyzip (~> 1.2)
     sinatra (2.0.3)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -62,28 +82,26 @@ GEM
       rack-protection (= 2.0.3)
       sinatra (= 2.0.3)
       tilt (>= 1.3, < 3)
-    slim (3.0.9)
-      temple (>= 0.7.6, < 0.9)
-      tilt (>= 1.3.3, < 2.1)
-    temple (0.8.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
+    xpath (3.1.0)
+      nokogiri (~> 1.8)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  colorize
+  capybara
+  capybara-selenium
+  chromedriver-helper
   launchy
   pry
-  pusher
-  rack-test
+  rack
   rspec
   sinatra
   sinatra-contrib
-  slim
 
 BUNDLED WITH
    1.16.2

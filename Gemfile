@@ -1,11 +1,14 @@
 source 'https://rubygems.org'
 
-gem 'rspec'
-gem 'pry'
-gem 'colorize'
-gem "sinatra"
-gem "sinatra-contrib"
-gem "launchy"
-gem "rack-test"
-gem 'slim'
-gem "pusher"
+gem 'sinatra'
+gem 'capybara'
+gem 'sinatra-contrib'
+gem 'rack'
+gem 'launchy'
+
+group :test do
+  gem 'rspec'
+  gem 'pry'
+  gem 'capybara-selenium'
+  gem 'chromedriver-helper'
+end
