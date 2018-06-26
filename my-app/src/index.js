@@ -5,14 +5,15 @@ import App from './join';
 import Game from './game';
 import registerServiceWorker from './registerServiceWorker';
 
-fetch('http://localhost:3000/game', {
+fetch('/game', {
   method: 'get'
-}).then((data) => {
-  console.log(data.json())
-  if(data){
-    ReactDOM.render(<data/>, document.getElementById('root'));
-  }else{
+}).then(data => data.json()).then(object => {
+  const game = object.game;
+  if(game == null){
     ReactDOM.render(<App/>, document.getElementById('root'));
+    registerServiceWorker();
+  } else {
+    ReactDOM.render(<Game/>, document.getElementById('root'));
+    registerServiceWorker();
   }
 });
-registerServiceWorker();
