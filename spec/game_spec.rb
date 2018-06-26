@@ -69,7 +69,6 @@ describe 'GofishGame' do
     player2.set_hand([Card.new("S", 4)])
     player3.set_hand([Card.new("D", 4)])
     player4.set_hand([Card.new("C", 4)])
-    json_data = game.to_json
-    expect(game.to_json).to eq "{\"player1\":{\"name\":\"player1\",\"hand\":[5 of Hearts]},\"player2\":{\"name\":\"player2\",\"hand\":[5 of Spades]},\"player3\":{\"name\":\"player3\",\"hand\":[5 of Diamonds]},\"player4\":{\"name\":\"player4\",\"hand\":[5 of Clubs]}}"
+    expect(game.to_json).to eq "{\"players\":[{\"name\":\"player1\",\"hand\":[{\"rank\":4,\"rank_value\":\"5\",\"suit\":\"H\",\"suit_value\":\"Hearts\",\"value\":\"5 of Hearts\",\"to_img_path\":\"h5\"}]},{\"name\":\"player2\",\"hand\":[{\"rank\":4,\"rank_value\":\"5\",\"suit\":\"S\",\"suit_value\":\"Spades\",\"value\":\"5 of Spades\",\"to_img_path\":\"s5\"}]},{\"name\":\"player3\",\"hand\":[{\"rank\":4,\"rank_value\":\"5\",\"suit\":\"D\",\"suit_value\":\"Diamonds\",\"value\":\"5 of Diamonds\",\"to_img_path\":\"d5\"}]},{\"name\":\"player4\",\"hand\":[{\"rank\":4,\"rank_value\":\"5\",\"suit\":\"C\",\"suit_value\":\"Clubs\",\"value\":\"5 of Clubs\",\"to_img_path\":\"c5\"}]}]}"
   end
 end
