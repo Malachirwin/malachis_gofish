@@ -49,11 +49,6 @@ class App < Sinatra::Base
       $game ||= GofishGame.new
       if $game.players == nil
         $game.start(NUMBER_OF_PLAYERS, $clients)
-        # $game.find_player_by_name("M").set_hand([Card.new("H", 3), Card.new("S", 3), Card.new("D", 3), Card.new("C", 3)])
-        # $game.find_player_by_name("J").set_hand([Card.new("H", 6), Card.new("S", 6), Card.new("D", 6), Card.new("C", 6)])
-        # $game.find_player_by_name("L").set_hand([Card.new("H", 4), Card.new("S", 4), Card.new("D", 4), Card.new("C", 4)])
-        # $game.find_player_by_name("K").set_hand([Card.new("H", 9), Card.new("S", 9), Card.new("D", 9), Card.new("C", 9), Card.new("H", 5), Card.new("S", 5), Card.new("D", 5), Card.new("C", 5)])
-        # $game.clear_deck
       end
       $result = "The game is starting"
       redirect("/playing_game?name=#{encrypt_client_name client_name}")
