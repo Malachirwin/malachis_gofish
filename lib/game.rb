@@ -11,7 +11,13 @@ class GofishGame
     @player_turn = 1
   end
 
-  def start(number_of_players, names=["player1", "player2", "player3", "player4"])
+  def start(number_of_players, names=nil)
+    if names == nil
+      names = []
+      number_of_players.times.with_index do |index|
+        names.push("player#{index + 1}")
+      end
+    end
     @deck = CardDeck.new
     @players = []
     number_of_players.times do |index|
@@ -161,6 +167,10 @@ class GofishGame
       end
     end
     result
+  end
+
+  def to_json(options = {})
+    {"deck":deck, "#{players[0].name}":players[0], "#{players[1].name}":players[1], "#{players[2].name}":players[2], "#{players[3].name}":players[3]}.to_json
   end
 
   def players
