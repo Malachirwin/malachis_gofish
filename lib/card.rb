@@ -18,6 +18,10 @@ class Card
     "#{suit.downcase}#{rank_value.downcase}"
   end
 
+  def to_json(options = {})
+    value
+  end
+
   def rank
     @rank
   end

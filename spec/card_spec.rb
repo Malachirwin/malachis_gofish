@@ -19,6 +19,10 @@ describe 'Card' do
     expect(card.suit).to eq "H"
   end
 
+  it "turns cards to json" do
+    expect(Card.new("H", 5).to_json).to eq "6 of Hearts"
+  end
+
   it "takes a card and turns in into the right thing for finding the card in cards folder" do
     card = Card.new('H', 10)
     expect(card.to_img_path).to eq "hj"
