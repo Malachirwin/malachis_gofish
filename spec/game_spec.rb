@@ -1,4 +1,5 @@
 require 'game'
+require "json"
 
 describe 'GofishGame' do
   let(:game) { GofishGame.new }
@@ -61,5 +62,14 @@ describe 'GofishGame' do
     game.player_set_hand(3, [])
     game.player_set_hand(4, [])
     expect(game.winner).to eq "player2 had the most points with 2 points"
+  end
+
+  it "turns the game into json" do
+    player1.set_hand([Card.new("H", 4)])
+    player2.set_hand([Card.new("S", 4)])
+    player3.set_hand([Card.new("D", 4)])
+    player4.set_hand([Card.new("C", 4)])
+    json_data = game.to_json
+    expect(game.to_json).to eq "{\"player1\":{\"name\":\"player1\",\"hand\":[5 of Hearts]},\"player2\":{\"name\":\"player2\",\"hand\":[5 of Spades]},\"player3\":{\"name\":\"player3\",\"hand\":[5 of Diamonds]},\"player4\":{\"name\":\"player4\",\"hand\":[5 of Clubs]}}"
   end
 end

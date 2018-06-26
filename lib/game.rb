@@ -170,7 +170,7 @@ class GofishGame
   end
 
   def to_json(options = {})
-    {"deck":deck, "#{players[0].name}":players[0], "#{players[1].name}":players[1], "#{players[2].name}":players[2], "#{players[3].name}":players[3]}.to_json
+    {"#{players[0].name}":players[0], "#{players[1].name}":players[1], "#{players[2].name}":players[2], "#{players[3].name}":players[3]}.to_json
   end
 
   def players
