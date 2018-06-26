@@ -25,12 +25,12 @@ class App < Sinatra::Base
     else
       $game.start(4, [json_obj["name"], "Jimmy", "Timmy", "Limmy"])
     end
+    {status: 200, game_id: $game.token, message: "Hi #{json_obj["name"]}"}.to_json
   end
 
   get "/game" do
-    $game = GofishGame.new
-    $game.start(4, ["Malachi", "Jimmy", "Timmy", "Limmy"])
-    binding.pry
+    # $game = GofishGame.new
+    # $game.start(4, ["Malachi", "Jimmy", "Timmy", "Limmy"])
     {game: $game}.to_json
   end
 
