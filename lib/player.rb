@@ -1,3 +1,4 @@
+require "json"
 class Player
   def initialize(name, cards=[])
     @cards = cards
@@ -11,6 +12,10 @@ class Player
 
   def name
     @name
+  end
+
+  def to_json(options = {})
+    {"name" => name, "hand" => player_hand}.to_json
   end
 
   def cards_left
