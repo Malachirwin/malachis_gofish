@@ -19,7 +19,7 @@ class Card
   end
 
   def to_json(options = {})
-    value
+    {rank: rank, rank_value: rank_value, suit: suit, suit_value: SUITS[suit], value: value, to_img_path: to_img_path}.to_json
   end
 
   def rank

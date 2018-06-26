@@ -20,7 +20,7 @@ describe 'Card' do
   end
 
   it "turns cards to json" do
-    expect(Card.new("H", 5).to_json).to eq "6 of Hearts"
+    expect(Card.new("H", 5).to_json).to eq "{\"rank\":5,\"rank_value\":\"6\",\"suit\":\"H\",\"suit_value\":\"Hearts\",\"value\":\"6 of Hearts\",\"to_img_path\":\"h6\"}"
   end
 
   it "takes a card and turns in into the right thing for finding the card in cards folder" do
