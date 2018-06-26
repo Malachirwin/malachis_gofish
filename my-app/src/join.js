@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import ReactDOM from 'react-dom'
 
 class App extends React.Component {
   constructor(props) {
@@ -15,13 +14,17 @@ class App extends React.Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     fetch('/', {
       method: 'POST',
       body: JSON.stringify({
         name: this.state.value
       })
-    })
-    event.preventDefault();
+    }).then(data => data.json()).then(object => {
+      console.log(object)
+      // redirect_to `/games/${object.game_id}`
+      // ReactDOM.render(<Game/>, document.getElementById('root'));
+    });
   }
 
   render() {
