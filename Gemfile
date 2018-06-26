@@ -5,6 +5,7 @@ gem 'capybara'
 gem 'sinatra-contrib'
 gem 'rack'
 gem 'launchy'
+gem "pusher"
 
 group :test do
   gem 'rspec'
