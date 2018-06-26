@@ -15,7 +15,7 @@ class Player
   end
 
   def to_json(options = {})
-    {"name" => name, "hand" => player_hand}.to_json
+    {name: name, hand: player_hand}.to_json
   end
 
   def cards_left
