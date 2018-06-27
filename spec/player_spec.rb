@@ -11,7 +11,8 @@ describe Player do
 
   it "turns a player to json" do
     player = Player.new("Malachi")
-    expect(Player.new("Malachi").to_json).to eq "{\"name\":\"Malachi\",\"hand\":[]}"
+    player.set_hand([])
+    expect(Player.new("Malachi").to_json).to eq "{\"name\":\"Malachi\",\"hand\":[],\"matches\":[]}"
   end
 
   it 'takes cards and puts them at the bottom of its hand' do
