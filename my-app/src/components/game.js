@@ -23,6 +23,12 @@ class Game extends React.Component {
       const hand = this.state.game.players[0].hand
       const player = this.state.game.players[this.state.game.players.length - 1]
       bots.splice((bots.length - 1), 1)
+      let turn;
+      if(this.state.game.name_of_playing_player === player.name) {
+        turn = true
+      }else{
+        turn = false
+      }
       return (
         <div className="Game">
           <header className="App-header">
@@ -36,12 +42,12 @@ class Game extends React.Component {
             }
           </div>
           <Center className="playing-space"/>
-          <HumanPlayer className="player" name={player.name} hand={hand}/>
+          <HumanPlayer className="player" name={player.name} turn={turn} player={player} hand={hand}/>
         </div>
       );
     }else{
       return (
-        <div></div>
+        <div><h1>hello world</h1></div>
       )
     }
   }
