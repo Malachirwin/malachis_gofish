@@ -107,6 +107,7 @@ DEPENDENCIES
   pusher
   rack
   rspec
+  selenium-webdriver
   sinatra
   sinatra-contrib
 

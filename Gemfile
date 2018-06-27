@@ -11,5 +11,6 @@ group :test do
   gem 'rspec'
   gem 'pry'
   gem 'capybara-selenium'
+  gem "selenium-webdriver"
   gem 'chromedriver-helper'
 end
