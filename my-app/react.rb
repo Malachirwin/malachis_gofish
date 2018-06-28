@@ -19,8 +19,10 @@ class App < Sinatra::Base
 
 
   def run_bots_turns()
-    until $game.player_turn == 1
-      run_bots
+    if $game.players
+      until $game.player_turn == 1
+        run_bots
+      end
     end
   end
 
@@ -30,20 +32,21 @@ class App < Sinatra::Base
       $game.next_turn
       return
     end
-    player = bot.name
-    until player != bot.name
-      player = $game.players[rand($game.players.length - 1)].name
+    player = bot
+    until player.name != bot.name && player.cards_left > 0
+      player = $game.players[rand($game.players.length - 1)]
+
     end
     hand = bot.player_hand
     card = hand[rand(hand.length - 1)]
-    request = Request.new(bot.name, player, card.rank_value)
+    request = Request.new(bot.name, player.name, card.rank_value)
     result = $game.do_turn(request)
     if result == "Go fish"
-      $results.push("#{bot.name} asked #{player} for a #{card.rank_value} and went fishing")
+      $results.push("#{bot.name} asked #{player.name} for a #{card.rank_value} and went fishing")
     elsif result == "you can't ask that"
-      $result.push("Clot, #{player_who_asked} ask for a card he did not have")
+      $result.push("Clot, #{bot.name} ask for a card he did not have")
     else
-      $results.push("#{bot.name} asked #{player} for a #{card.rank_value} got the #{result}")
+      $results.push("#{bot.name} asked #{player.name} for a #{card.rank_value} got the #{result}")
     end
   end
 
@@ -80,7 +83,7 @@ class App < Sinatra::Base
   post('/request_card') do
     json_obj = JSON.parse(request.body.read)
     player_who_asked = $game.player_who_is_playing.name
-    if json_obj["player_who_was_asked"] == '' && json_obj["desired_rank"] == ''
+    if json_obj["desired_rank"] == false
       $game.next_turn
     else
       request = Request.new(player_who_asked, json_obj["player_who_was_asked"], json_obj["desired_rank"])
@@ -88,21 +91,18 @@ class App < Sinatra::Base
       if result == "Go fish"
         $results.push("#{player_who_asked} asked #{json_obj["player_who_was_asked"]} for a #{json_obj["desired_rank"]} and went fishing")
       elsif result == "you can't ask that"
-        $result.push("Clot, #{player_who_asked} ask for a card he did not have")
+        $results.push("Clot, #{player_who_asked} ask for a card he did not have")
       else
         $results.push("#{player_who_asked} asked #{json_obj["player_who_was_asked"]} for a #{json_obj["desired_rank"]} got the #{result}")
       end
     end
-    if $game.winner
-      winner = $game.winner
-    end
     run_bots_turns
-    if winner != nil
-      $hash = {result: winner}
+    if $game.winner != false
+      $hash = {result: $game.winner, game_state: game_state}
       $game = nil
       $results = []
     else
-      $hash = {result: "no winner yet"}
+      $hash = {result: "no winner yet", game_state: game_state}
     end
     json $hash
   end
@@ -113,8 +113,7 @@ class App < Sinatra::Base
   end
 
   get "/game" do
-    game = {game: $game, log: $results, cards_left_in_deck: $game.cards_left_in_deck}
-    json game
+    json game_state
   end
 
   get "/app" do
@@ -124,5 +123,8 @@ class App < Sinatra::Base
       hash = {game: true}
     end
     json hash
+  end
+  def game_state
+    {game: $game, log: $results, cards_left_in_deck: $game.cards_left_in_deck}
   end
 end
