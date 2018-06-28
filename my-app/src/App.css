@@ -21,6 +21,26 @@
   animation: spin 0.5s linear infinite;
 }
 
+p {
+  font-size: 30px;
+}
+
+.closser-to-gether {
+  margin-bottom: -30px;
+}
+
+.less-top-margin {
+  margin-top: -20px;
+}
+
+.further-from {
+  margin-top: 50px;
+}
+
+.book {
+  margin-top: -20px;
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -45,7 +65,7 @@
 
 .playing-space {
   text-align: center;
-  margin-top: 140px;
+  height: 96px;
 }
 
 .hand {
@@ -92,11 +112,23 @@
 }
 
 .log {
+  background-color: lightgrey;
   float: bottom;
   float: right;
   margin-right: 40px;
   margin-bottom: 40px;
-  margin-top: -600px;
+  margin-top: -350px;
+  border: 3px solid grey;
+  border-radius: 20px;
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: -40px;
+}
+
+.submit {
+  font-size: 40px;
+  background-color: #227755;
 }
 
 .inbetween-match {

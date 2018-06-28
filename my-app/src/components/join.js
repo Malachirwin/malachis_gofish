@@ -26,12 +26,12 @@ class Join extends React.Component {
         name: this.state.value,
         number_of_players: this.menu.value
       })
-    }).then(data => this.props.updateState())
+    }).then(data => this.props.updateState("game"))
   }
 
   render() {
     return (
-      <div className="App">
+      <div className="App-join">
         <header className="App-header">
           <img src="cards/backs_custom.jpg" className="App-logo" alt="logo" />
           <h1 className="App-title">Go fish</h1>
