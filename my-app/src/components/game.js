@@ -13,6 +13,7 @@ class Game extends React.Component {
       targetCard: "",
       targetPlayer: ""
     }
+    this.updateGameState.bind(this)
   }
   componentDidMount() {
     fetch("/game", {
@@ -24,6 +25,16 @@ class Game extends React.Component {
         cardsLeftInDeck: object.cards_left_in_deck
       })
     })
+  }
+  updateGameState(game, log, cardsLeftInDeck) {
+    this.setState({
+      game: game,
+      log: log,
+      cardsLeftInDeck: cardsLeftInDeck,
+      targetCard: "",
+      targetPlayer: ""
+    })
+    console.log(this.state)
   }
   targetCard(card) {
     this.setState({targetCard: card})
@@ -59,7 +70,7 @@ class Game extends React.Component {
             }
           </div>
           <Center className="playing-space" cardsLeftInDeck={this.state.cardsLeftInDeck}/>
-          <HumanPlayer className="player" updateState={this.props.updateState.bind(this)} matches={player.matches} targetPlayerValue={this.state.targetPlayer} targetCardValue={this.state.targetCard} targetCard={this.targetCard.bind(this)} name={player.name} turn={turn} player={player} hand={hand}/>
+          <HumanPlayer className="player" updateGameState={this.updateGameState.bind(this)} updateState={this.props.updateState.bind(this)} matches={player.matches} targetPlayerValue={this.state.targetPlayer} targetCardValue={this.state.targetCard} targetCard={this.targetCard.bind(this)} name={player.name} turn={turn} player={player} hand={hand}/>
           <GameLog className="log" log={log}/>
         </div>
       );

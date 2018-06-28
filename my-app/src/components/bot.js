@@ -16,7 +16,7 @@ class RobotPlayer extends React.Component {
                 }
                 <div>
                   {this.props.matches.map((match, index) =>
-                    <div className="matches">
+                    <div key={'my-key' + index} className="matches">
                       <span className="inbetween-match"/>
                       {match.map((card, index) =>
                         <img key={'mykey' + index} className="match" src={`cards/${card.to_img_path}.png`} alt=""/>
@@ -40,7 +40,7 @@ class RobotPlayer extends React.Component {
                 }
                 <div>
                   {this.props.matches.map((match, index) =>
-                    <div className="matches">
+                    <div key={'my-key' + index}className="matches">
                       <span className="inbetween-match"/>
                       {match.map((card, index) =>
                         <img key={'mykey' + index} className="match" src={`cards/${card.to_img_path}.png`} alt=""/>

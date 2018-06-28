@@ -16,22 +16,27 @@ class Log extends React.Component {
 class GameLog extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {value: "show -Game Log-"}
   }
   whenClick() {
     if(this.state.showResults === false) {
-      this.setState({showResults: true})
+      this.setState({
+        showResults: true,
+        value: "hide -Game Log-"
+      })
     }else{
-      this.setState({showResults: false})
+      this.setState({
+        showResults: false,
+        value: "show -Game Log-"
+      })
     }
   }
   render() {
     return (
       <div className="log">
         <div>
-            <h1 className="less-top-margin" onClick={this.whenClick.bind(this)}>-Game Log-</h1>
-            { this.state.showResults ? <Log logs={this.props.log.slice(0).reverse().slice(0, 15)}/> : null
-            }
+            <h1 className="less-top-margin" onClick={this.whenClick.bind(this)}>{this.state.value}</h1>
+            { this.state.showResults ? <Log logs={this.props.log.slice(0).reverse().slice(0, 15)}/> : null}
         </div>
       </div>
     );
