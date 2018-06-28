@@ -37,9 +37,9 @@ describe 'GofishGame' do
   it 'compares a card two a players hand and return true' do
     game.player_set_hand(1, [Card.new('H', 3), Card.new('D', 3), Card.new('H', 7), Card.new('H', 4), Card.new('S', 2)])
     game.player_set_hand(2, [Card.new('H', 3)])
-    expect(game.card_in_player_hand(player1, 4, player2)).to eq '4 of Hearts'
-    expect(player1.cards_left).to eq 4
-    expect(player2.cards_left).to eq 2
+    expect(game.card_in_player_hand(player1, 4, player2)).to eq "4 of Hearts, 4 of Diamonds"
+    expect(player1.cards_left).to eq 3
+    expect(player2.cards_left).to eq 3
   end
 
   it "compares a card two a players hand and return Go fish and player draws a card" do
