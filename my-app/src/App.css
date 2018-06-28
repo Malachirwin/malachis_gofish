@@ -6,6 +6,26 @@
   text-align: center;
 }
 
+.loader-container {
+  margin-left: 45%;
+}
+.loader {
+  margin-left: -50px;
+  border-top: 50px solid #dce800;
+  border-bottom: 50px solid #3ea826;
+  border-right: 50px solid #3b6ec6;
+  border-left: 50px solid #ff9000;
+  border-radius: 50%;
+  width: 1px;
+  height: 1px;
+  animation: spin 0.5s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .App-logo {
   animation: App-logo-spin infinite 1s linear;
   height: 80px;
@@ -19,18 +39,30 @@
   text-align: center;
 }
 
+.endGame {
+  text-align: center;
+}
+
 .playing-space {
   text-align: center;
   margin-top: 140px;
 }
 
 .hand {
-  margin-left: -40px;
+  margin-left: -60px;
   width: 71px;
+}
+
+.highlight {
+  border: 2px solid blue;
+  border-radius: 7px;
+
 }
 
 .center-cards {
   text-align: center;
+  margin-top: 140px;
+  margin-bottom: 140px;
 }
 .center-cards img {
   width: 71px;
@@ -64,6 +96,20 @@
   float: right;
   margin-right: 40px;
   margin-bottom: 40px;
+  margin-top: -600px;
+}
+
+.inbetween-match {
+  margin-right: 10px;
+}
+
+.matches {
+  display: inline;
+}
+
+.match {
+  width: 45px;
+  margin-left: -37px;
 }
 
 .player {
